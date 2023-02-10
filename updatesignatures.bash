@@ -230,7 +230,6 @@ do
 done
 COLS=$($TPUT cols)
 printf '%*.*s\r' 0 "$COLS" "$PAD"
-printf '%*.*s\r' 0 "$COLS" "$PAD"
 COUNTER=$(<"${COUNTERFILE}")
 printf '%b%*d %b%s%*.*s\n' "${GREEN}" "$((${#OK_STATUS}-1))" "${COUNTER}" "${NOCOLOR}" "files checked" 0 "$PADLEN" "$PAD"
 
