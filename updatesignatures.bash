@@ -42,14 +42,59 @@ EXCLUSION_REGEXP+=("\./TeX/\.signatures")
 
 # set to true for more output
 # do not change value if set in environment
-DEBUG_PRINT="${DEBUG_PRINT:=true}"
+DEBUG_PRINT="${DEBUG_PRINT:=false}"
 SHORT_NAME=${THIS_SCRIPT%.*}
 GNUPG_LOGFILE=$(mktemp /tmp/${SHORT_NAME}_gnupg_log.XXXXXX)
 
 debug_print()
 {
-  if ${DEBUG_PRINT}; then
-    echo -e "$1"
+  if [[ "${DEBUG_PRINT}" = true ]]; then
+    echo -e "$*"
+  fi
+}
+
+# array keeps a list of temporary files to cleanup
+TMP_FILE_LIST=()
+
+# Do cleanup
+function Cleanup() {
+  for i in "${!TMP_FILE_LIST[@]}"; do
+    if [ -f "${TMP_FILE_LIST[$i]}" ]; then
+      debug_print "deleting ${TMP_FILE_LIST[$i]}"
+      rm -f "${TMP_FILE_LIST[$i]}"
+    fi
+  done
+}
+
+# Do cleanup, display error message and exit
+function Interrupt() {
+  Cleanup
+  exitcode=99
+  echo -e "\nScript '${THIS_SCRIPT}' aborted by user."
+  exit $exitcode
+}
+
+# trap ctrl-c and call interrupt()
+trap Interrupt INT
+# trap exit and call cleanup()
+trap Cleanup   EXIT
+
+
+# call:
+# tempfile my_temp_file
+# to create a tempfile. The generated file is $my_temp_file
+function tempfile()
+{
+  local __resultvar=$1
+  local __tmp_file=$(mktemp -t ${THIS_SCRIPT}_tmp_file.XXXXXX) || {
+    echo "*** Creation of ${__tmp_file} failed";
+    exit 1;
+  }
+  TMP_FILE_LIST+=("${__tmp_file}")
+  if [[ "$__resultvar" ]]; then
+    eval $__resultvar="'$__tmp_file'"
+  else
+    echo "$__tmp_file"
   fi
 }
 
@@ -82,7 +127,6 @@ idiot_counter()
      esac
    done
 }
-idiot_counter
 
 cat /dev/null > "${GNUPG_LOGFILE}"
 
@@ -99,7 +143,9 @@ START_WITH="."
 if [[ $# -eq 1 ]]; then
   ARG=$(readlink -f "$1")
   if [[ ! -n "${ARG}" || ! -d "${ARG}" ]]; then
-    echo "### not a directory or notexistent"
+    # to avoid accidently updating the whole directory, exit here
+    echo "### \"$1\" is not a directory or notexistent"
+    exit
   else
     REL_PATH=${ARG#"${DIR}"/}
     if [[ "${ARG}" == "${REL_PATH}" || ! -d "${REL_PATH}" ]]; then
@@ -110,6 +156,8 @@ if [[ $# -eq 1 ]]; then
   fi
 fi
 echo "START_WITH = \"${START_WITH}\""
+
+idiot_counter
 
 # needed to pass a variable as search pattern to grep
 # so that the variable content is not interpreted as regexp
@@ -127,6 +175,8 @@ NOT_EXIST_STATUS="[ NOT FOUND ] "
 
 echo -e "update signatures for new and changed files"
 COUNTER=0
+tempfile COUNTERFILE
+debug_print "COUNTERFILE : $COUNTERFILE"
 # EXCLUSION_EXPRESSION excludes the directories given in EXCLUSION_REGEXP
 find -E "${START_WITH}" ${EXCLUSION_EXPRESSION} -type f -print0 | while read -d $'\0' file
 do
@@ -174,9 +224,15 @@ do
       gpg --quiet --detach-sign --armor --yes --output "${SIGNATURE_FILE}" "${file}"
       ;;
   esac
+  if [ -f "${COUNTERFILE}" ]; then
+    printf "%s" "${COUNTER}" > "${COUNTERFILE}"
+  fi
 done
 COLS=$($TPUT cols)
 printf '%*.*s\r' 0 "$COLS" "$PAD"
+printf '%*.*s\r' 0 "$COLS" "$PAD"
+COUNTER=$(<"${COUNTERFILE}")
+printf '%b%*d %b%s%*.*s\n' "${GREEN}" "$((${#OK_STATUS}-1))" "${COUNTER}" "${NOCOLOR}" "files checked" 0 "$PADLEN" "$PAD"
 
 if [[ "${START_WITH}" == "." ]]; then
   START_WITH=".signatures"
