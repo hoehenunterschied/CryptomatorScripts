@@ -134,7 +134,7 @@ cat /dev/null > "${GNUPG_LOGFILE}"
 EXCLUSION_EXPRESSION=""
 for i in "${!EXCLUSION_REGEXP[@]}"; do
   EXCLUSION_EXPRESSION="${EXCLUSION_EXPRESSION} -regex ${EXCLUSION_REGEXP[i]} -prune -o "
-  debug_print "${GREEN}[ EXCLUDED FROM SEARCH ]${NOCOLOR}    ${EXCLUSION_REGEXP[i]}"
+  echo -e "${GREEN}[ EXCLUDED FROM SEARCH ]${NOCOLOR}    ${EXCLUSION_REGEXP[i]}"
 done
 # .signatures is hard-coded not to be searched
 EXCLUSION_EXPRESSION="${EXCLUSION_EXPRESSION} -regex \./\.signatures -prune -o "
