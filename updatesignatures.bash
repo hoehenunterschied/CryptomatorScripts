@@ -37,7 +37,7 @@ EXCLUSION_REGEXP=()
 ##EXCLUSION_REGEXP+=("\./briefe/\.git")
 EXCLUSION_REGEXP+=("\./\.nochecksum/\.zsh/\.zcompdump.*")
 EXCLUSION_REGEXP+=("\./\.nochecksum/\.zsh/\.zsh_sessions")
-EXCLUSION_REGEXP+=("\./\.nochecksum/\.zsh/\.zsh_history")
+EXCLUSION_REGEXP+=("\./\.nochecksum/\.zsh/\.zsh_history.*")
 EXCLUSION_REGEXP+=("\./TeX/\.signatures")
 
 # set to true for more output
