@@ -43,6 +43,11 @@ WHITE='\x1B[1;37m'
 RSYNC_OPTS="--archive --hard-links --whole-file --one-file-system --checksum --verbose --delete"
 DIFF_OPTS="--brief --recursive"
 
+# exclusion list for rsync
+EXCLUSION_EXP=()
+EXCLUSION_EXP+=(".nochecksum/.zsh/.zsh_history*")
+EXCLUSION_EXP+=(".nochecksum/.zsh/.zsh_sessions")
+
 # the pseudo target all: the action (difference, dryrun, sync) is executed on all available targets
 PSEUDO_TARGET_ALL="ALL"
 ACTION_SYNC="sync"
@@ -116,7 +121,12 @@ sync()
   if ! ${EXECUTE}; then
     PRINT_ONLY="echo"
   fi
-  ${PRINT_ONLY} rsync ${RSYNC_OPTS} "${SOURCE_DIR}/" "${TARGET_DIR}/"
+  EXCLUSION_EXPRESSION=""
+  for i in "${!EXCLUSION_EXP[@]}"; do
+    EXCLUSION_EXPRESSION="${EXCLUSION_EXPRESSION} --exclude=${EXCLUSION_EXP[i]}"
+    echo -e "${GREEN}[ EXCLUDED FROM SYNC ]${NOCOLOR}    ${EXCLUSION_EXP[i]}"
+  done
+  ${PRINT_ONLY} rsync ${EXCLUSION_EXPRESSION} ${RSYNC_OPTS} "${SOURCE_DIR}/" "${TARGET_DIR}/"
 }
 
 #difference is an alternative to dryrun to check for differences
@@ -134,7 +144,12 @@ dryrun()
   if ! ${EXECUTE}; then
     PRINT_ONLY="echo"
   fi
-  ${PRINT_ONLY} rsync --dry-run ${RSYNC_OPTS} "${SOURCE_DIR}/" "${TARGET_DIR}/"
+  EXCLUSION_EXPRESSION=""
+  for i in "${!EXCLUSION_EXP[@]}"; do
+    EXCLUSION_EXPRESSION="${EXCLUSION_EXPRESSION} --exclude=${EXCLUSION_EXP[i]}"
+    echo -e "${GREEN}[ EXCLUDED FROM SYNC ]${NOCOLOR}    ${EXCLUSION_EXP[i]}"
+  done
+  ${PRINT_ONLY} rsync --dry-run ${EXCLUSION_EXPRESSION} ${RSYNC_OPTS} "${SOURCE_DIR}/" "${TARGET_DIR}/"
   echo -e "${YELLOW}####${NOCOLOR}\n${YELLOW}#### WARNING${NOCOLOR}: This was a dry run\n${YELLOW}####${NOCOLOR}          nothing has been synced"
 }
 

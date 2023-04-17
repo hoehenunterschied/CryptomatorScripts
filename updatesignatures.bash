@@ -38,7 +38,6 @@ EXCLUSION_REGEXP=()
 EXCLUSION_REGEXP+=("\./\.nochecksum/\.zsh/\.zcompdump.*")
 EXCLUSION_REGEXP+=("\./\.nochecksum/\.zsh/\.zsh_sessions")
 EXCLUSION_REGEXP+=("\./\.nochecksum/\.zsh/\.zsh_history.*")
-EXCLUSION_REGEXP+=("\./TeX/\.signatures")
 
 # set to true for more output
 # do not change value if set in environment

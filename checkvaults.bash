@@ -19,6 +19,7 @@ TARGET_NAME+=("JohnPeel");      TARGET_LIST+=("/Users/lange/Cryptomator/JohnPeel
 TARGET_NAME+=("JohnPeelCopy");  TARGET_LIST+=("/Volumes/Media/JohnPeelSessions");                     CRYPTOMATOR_LIST+=(false);
 TARGET_NAME+=("SanDisk");       TARGET_LIST+=("/Users/lange/Cryptomator/SanDiskMasterCopy");          CRYPTOMATOR_LIST+=(true);
 TARGET_NAME+=("Stick");         TARGET_LIST+=("/Users/lange/Cryptomator/StickMasterCopy");            CRYPTOMATOR_LIST+=(true);
+TARGET_NAME+=("ThumbDrive");    TARGET_LIST+=("/Users/lange/Cryptomator/ThumbDriveMasterCopy");       CRYPTOMATOR_LIST+=(true);
 TARGET_NAME+=("Stick16");       TARGET_LIST+=("/Users/lange/Cryptomator/Stick16MasterCopy");          CRYPTOMATOR_LIST+=(true);
 TARGET_NAME+=("Spaceloop");     TARGET_LIST+=("/Users/lange/Cryptomator/SpaceloopMasterCopy");        CRYPTOMATOR_LIST+=(true);
 TARGET_NAME+=("Crucial");       TARGET_LIST+=("/Volumes/JohnPeel/JohnPeelSessions");                  CRYPTOMATOR_LIST+=(false);
