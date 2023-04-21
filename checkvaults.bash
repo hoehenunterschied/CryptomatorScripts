@@ -14,6 +14,7 @@ TARGET_NAME+=("iCloudDrive");   TARGET_LIST+=("/Users/lange/Cryptomator/iCloudDr
 TARGET_NAME+=("GoogleDrive");   TARGET_LIST+=("/Users/lange/Cryptomator/GoogleDriveMasterCopy");      CRYPTOMATOR_LIST+=(true);
 TARGET_NAME+=("OraDocs");       TARGET_LIST+=("/Users/lange/Cryptomator/OraDocsMasterCopy");          CRYPTOMATOR_LIST+=(true);
 TARGET_NAME+=("Corsair");       TARGET_LIST+=("/Users/lange/Cryptomator/CorsairMasterCopy");          CRYPTOMATOR_LIST+=(true);
+TARGET_NAME+=("Samsung256");    TARGET_LIST+=("/Users/lange/Cryptomator/SamsungMasterCopy");          CRYPTOMATOR_LIST+=(true);
 TARGET_NAME+=("TimeMachine");   TARGET_LIST+=("/Volumes/Media/Cryptomator/MasterCopy");               CRYPTOMATOR_LIST+=(false);
 TARGET_NAME+=("JohnPeel");      TARGET_LIST+=("/Users/lange/Cryptomator/JohnPeelSessions");           CRYPTOMATOR_LIST+=(true);
 TARGET_NAME+=("JohnPeelCopy");  TARGET_LIST+=("/Volumes/Media/JohnPeelSessions");                     CRYPTOMATOR_LIST+=(false);

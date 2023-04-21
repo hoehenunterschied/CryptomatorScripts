@@ -13,6 +13,7 @@ TARGET_NAME+=("TimeMachine");   TARGET_LIST+=("/Volumes/Media/Cryptomator/Master
 TARGET_NAME+=("GoogleDrive");   TARGET_LIST+=("/Users/lange/Cryptomator/GoogleDriveMasterCopy");      CRYPTOMATOR_LIST+=(true);
 TARGET_NAME+=("OraDocs");       TARGET_LIST+=("/Users/lange/Cryptomator/OraDocsMasterCopy");          CRYPTOMATOR_LIST+=(true);
 TARGET_NAME+=("Corsair");       TARGET_LIST+=("/Users/lange/Cryptomator/CorsairMasterCopy");          CRYPTOMATOR_LIST+=(true);
+TARGET_NAME+=("Samsung256");    TARGET_LIST+=("/Users/lange/Cryptomator/SamsungMasterCopy");          CRYPTOMATOR_LIST+=(true);
 TARGET_NAME+=("SanDisk");       TARGET_LIST+=("/Users/lange/Cryptomator/SanDiskMasterCopy");          CRYPTOMATOR_LIST+=(true);
 TARGET_NAME+=("Stick");         TARGET_LIST+=("/Users/lange/Cryptomator/StickMasterCopy");            CRYPTOMATOR_LIST+=(true);
 TARGET_NAME+=("ThumbDrive");    TARGET_LIST+=("/Users/lange/Cryptomator/ThumbDriveMasterCopy");       CRYPTOMATOR_LIST+=(true);
